@@ -1,6 +1,8 @@
 import { mkdir } from 'node:fs/promises';
 import { runFfmpeg } from '../ffmpeg.js';
 import { loadManifest } from '../load.js';
+import { runFfmpeg } from '../ffmpeg.ts';
+import { loadManifest } from '../load.ts';
 
 export async function run(): Promise<void> {
   const manifest = loadManifest();

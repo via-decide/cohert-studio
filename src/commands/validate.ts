@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import { getCanonicalAudio, loadManifest } from '../load.js';
+import { getCanonicalAudio, loadManifest } from '../load.ts';
 
 export async function run(): Promise<void> {
   try {

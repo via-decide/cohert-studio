@@ -1,6 +1,8 @@
 import { existsSync } from 'node:fs';
 import { checkFfmpegInstalled, probeFileDurationSec } from '../ffmpeg.js';
 import { getCanonicalAudio, loadManifest } from '../load.js';
+import { checkFfmpegInstalled, probeFileDurationSec } from '../ffmpeg.ts';
+import { getCanonicalAudio, loadManifest } from '../load.ts';
 
 export async function run(): Promise<void> {
   try {

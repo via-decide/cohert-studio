@@ -17,6 +17,19 @@ switch (command) {
     break;
   case 'trim':
     await import('./src/commands/trim.js').then((m) => m.run());
+    await import('./src/commands/validate.ts').then((m) => m.run());
+    break;
+  case 'info':
+    await import('./src/commands/info.ts').then((m) => m.run());
+    break;
+  case 'dry':
+    await import('./src/commands/dry.ts').then((m) => m.run());
+    break;
+  case 'merge':
+    await import('./src/commands/merge.ts').then((m) => m.run());
+    break;
+  case 'trim':
+    await import('./src/commands/trim.ts').then((m) => m.run());
     break;
   default:
     console.log(`

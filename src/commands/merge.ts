@@ -3,6 +3,8 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { checkFfmpegInstalled, probeFileDurationSec, runFfmpeg } from '../ffmpeg.js';
 import { getCanonicalAudio, loadManifest } from '../load.js';
+import { checkFfmpegInstalled, probeFileDurationSec, runFfmpeg } from '../ffmpeg.ts';
+import { getCanonicalAudio, loadManifest } from '../load.ts';
 
 function pushTrimArgs(args: string[], start: number, end: number | null): void {
   if (start > 0) {
@@ -88,6 +90,8 @@ export async function run(): Promise<void> {
 
     const finalArgs = ['-y'];
     if (shouldLoopVideo) {
+    const finalArgs = ['-y'];
+    if (manifest.sync.autoFitVideoToAudio && manifest.sync.allowVideoLoop && videoDuration < canonicalDuration) {
       finalArgs.push('-stream_loop', '-1');
     }
 
@@ -108,6 +112,10 @@ export async function run(): Promise<void> {
     );
 
     if (!manifest.sync.autoFitVideoToAudio || videoDuration < canonicalDuration || shouldLoopVideo) {
+    if (
+      !manifest.sync.autoFitVideoToAudio ||
+      (videoDuration < canonicalDuration && !manifest.sync.allowVideoLoop)
+    ) {
       finalArgs.push('-shortest');
     }
 

@@ -7,6 +7,12 @@ export function loadManifest(manifestPath = './production.json'): ProductionMani
   const raw = readFileSync(resolvedManifestPath, 'utf8');
   const parsed = JSON.parse(raw) as ProductionManifest;
   const manifestDir = dirname(resolvedManifestPath);
+import { resolve } from 'node:path';
+import type { AudioInput, ProductionManifest } from './types.ts';
+
+export function loadManifest(manifestPath = './production.json'): ProductionManifest {
+  const raw = readFileSync(manifestPath, 'utf8');
+  const parsed = JSON.parse(raw) as ProductionManifest;
 
   if (parsed.studio?.mode !== 'audio-video-composer') {
     throw new Error("Invalid studio.mode. Expected 'audio-video-composer'.");
@@ -36,12 +42,14 @@ export function loadManifest(manifestPath = './production.json'): ProductionMani
 
   for (const video of parsed.inputs.videos) {
     if (!existsSync(resolve(manifestDir, video.path))) {
+    if (!existsSync(resolve(video.path))) {
       console.warn(`Missing video file: ${video.path}`);
     }
   }
 
   for (const audio of parsed.inputs.audios) {
     if (!existsSync(resolve(manifestDir, audio.path))) {
+    if (!existsSync(resolve(audio.path))) {
       console.warn(`Missing audio file: ${audio.path}`);
     }
   }
