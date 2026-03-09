@@ -1,0 +1,21 @@
+{
+  "name": "cohert-studio",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "studio": "./studio.ts"
+  },
+  "scripts": {
+    "validate": "ts-node --esm studio.ts validate",
+    "info": "ts-node --esm studio.ts info",
+    "dry": "ts-node --esm studio.ts dry",
+    "merge": "ts-node --esm studio.ts merge",
+    "trim": "ts-node --esm studio.ts trim"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.0"
+  }
+}
