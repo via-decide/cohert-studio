@@ -1,6 +1,8 @@
 import { cp, mkdir, mkdtemp, rename, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
+import { checkFfmpegInstalled, probeFileDurationSec, runFfmpeg } from '../ffmpeg.js';
+import { getCanonicalAudio, loadManifest } from '../load.js';
 import { checkFfmpegInstalled, probeFileDurationSec, runFfmpeg } from '../ffmpeg.ts';
 import { getCanonicalAudio, loadManifest } from '../load.ts';
 
@@ -83,6 +85,11 @@ export async function run(): Promise<void> {
     const canonicalDuration = await probeFileDurationSec(canonical.path);
     const videoDuration = await probeFileDurationSec(processedVideos[0]);
 
+    const shouldLoopVideo =
+      manifest.sync.autoFitVideoToAudio && manifest.sync.allowVideoLoop && videoDuration < canonicalDuration;
+
+    const finalArgs = ['-y'];
+    if (shouldLoopVideo) {
     const finalArgs = ['-y'];
     if (manifest.sync.autoFitVideoToAudio && manifest.sync.allowVideoLoop && videoDuration < canonicalDuration) {
       finalArgs.push('-stream_loop', '-1');
@@ -104,6 +111,7 @@ export async function run(): Promise<void> {
       `${manifest.output.width}x${manifest.output.height}`,
     );
 
+    if (!manifest.sync.autoFitVideoToAudio || videoDuration < canonicalDuration || shouldLoopVideo) {
     if (
       !manifest.sync.autoFitVideoToAudio ||
       (videoDuration < canonicalDuration && !manifest.sync.allowVideoLoop)

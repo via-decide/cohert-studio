@@ -1,4 +1,12 @@
 import { existsSync, readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import type { AudioInput, ProductionManifest } from './types.js';
+
+export function loadManifest(manifestPath = './production.json'): ProductionManifest {
+  const resolvedManifestPath = resolve(manifestPath);
+  const raw = readFileSync(resolvedManifestPath, 'utf8');
+  const parsed = JSON.parse(raw) as ProductionManifest;
+  const manifestDir = dirname(resolvedManifestPath);
 import { resolve } from 'node:path';
 import type { AudioInput, ProductionManifest } from './types.ts';
 
@@ -33,12 +41,14 @@ export function loadManifest(manifestPath = './production.json'): ProductionMani
   }
 
   for (const video of parsed.inputs.videos) {
+    if (!existsSync(resolve(manifestDir, video.path))) {
     if (!existsSync(resolve(video.path))) {
       console.warn(`Missing video file: ${video.path}`);
     }
   }
 
   for (const audio of parsed.inputs.audios) {
+    if (!existsSync(resolve(manifestDir, audio.path))) {
     if (!existsSync(resolve(audio.path))) {
       console.warn(`Missing audio file: ${audio.path}`);
     }
