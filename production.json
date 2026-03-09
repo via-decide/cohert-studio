@@ -1,0 +1,54 @@
+{
+  "version": "1.0",
+  "studio": {
+    "name": "cohert-studio",
+    "mode": "audio-video-composer"
+  },
+  "production": {
+    "id": "merge-001",
+    "title": "Module 01 Final Merge",
+    "slug": "module-01-final-merge",
+    "status": "draft"
+  },
+  "inputs": {
+    "videos": [
+      {
+        "id": "video-main",
+        "path": "./assets/video/module-01.mp4",
+        "trimStartSec": 0,
+        "trimEndSec": null,
+        "volume": 1,
+        "mute": false
+      }
+    ],
+    "audios": [
+      {
+        "id": "audio-main",
+        "path": "./assets/audio/module-01.wav",
+        "trimStartSec": 0,
+        "trimEndSec": null,
+        "volume": 1,
+        "isCanonical": true,
+        "delayStartSec": 0
+      }
+    ]
+  },
+  "sync": {
+    "mode": "audio-led",
+    "primaryAudioId": "audio-main",
+    "muteOriginalVideoAudio": true,
+    "autoFitVideoToAudio": true,
+    "allowVideoLoop": false
+  },
+  "output": {
+    "path": "./renders/module-01-final.mp4",
+    "format": "mp4",
+    "videoCodec": "libx264",
+    "audioCodec": "aac",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "crf": 23,
+    "preset": "medium"
+  }
+}
